@@ -5,7 +5,7 @@ Concrete subclasses only have to provide their palette, label and dark/light fla
 "
 Class {
 	#name : 'ToCatppuccinTheme',
-	#superclass : 'ToBeeTheme',
+	#superclass : 'ToRawTheme',
 	#category : 'Toplo-Theme-Catppuccin-Catppuccin',
 	#package : 'Toplo-Theme-Catppuccin',
 	#tag : 'Catppuccin'
