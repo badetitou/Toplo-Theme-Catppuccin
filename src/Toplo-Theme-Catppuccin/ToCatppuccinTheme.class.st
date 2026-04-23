@@ -27,6 +27,28 @@ ToCatppuccinTheme class >> borderDisabledColor [
 		  ifFalse: [ self colorNamed: #surface0 ]
 ]
 
+{ #category : 'accessing' }
+ToCatppuccinTheme class >> buttonTokenProperties [
+
+	^ {
+		  (ToTokenProperty name: #'button-padding-H' value: 12).
+		  (ToTokenProperty name: #'button-padding-V' value: 5).
+		  (ToTokenProperty name: #'button-padding-H-SM' value: 10).
+		  (ToTokenProperty name: #'button-padding-V-SM' value: 3).
+		  (ToTokenProperty name: #'button-padding-H-LG' value: 16).
+		  (ToTokenProperty name: #'button-padding-V-LG' value: 7).
+		  (ToTokenProperty name: #'button-icon-size' value: 16 asPoint).
+		  (ToTokenProperty name: #'button-icon-size-SM' value: 14 asPoint).
+		  (ToTokenProperty name: #'button-icon-size-LG' value: 18 asPoint).
+		  (ToTokenProperty name: #'button-iconic-size' value: 32 asPoint).
+		  (ToTokenProperty name: #'button-iconic-size-SM' value: 24 asPoint).
+		  (ToTokenProperty name: #'button-iconic-size-LG' value: 40 asPoint).
+		  (ToTokenProperty name: #'button-iconic-padding' value: 8).
+		  (ToTokenProperty name: #'button-iconic-padding-SM' value: 5).
+		  (ToTokenProperty name: #'button-iconic-padding-LG' value: 11).
+		  (ToTokenProperty name: #'button-interspace' value: 10) }
+]
+
 { #category : 'testing' }
 ToCatppuccinTheme class >> canBeDefault [
 
@@ -173,7 +195,7 @@ ToCatppuccinTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-color-primary-selection' value: primary).
 		  (ToTokenProperty name: #'border-color-danger-selection' value: error).
 		  (ToTokenProperty name: #'divider-hovered-background' value: (overlay0 alpha: 0.18)).
-		  (ToTokenProperty name: #'divider-pressed-background' value: (overlay1 alpha: 0.32)) }
+		  (ToTokenProperty name: #'divider-pressed-background' value: (overlay1 alpha: 0.32)) } , self buttonTokenProperties
 ]
 
 { #category : 'accessing' }
@@ -257,4 +279,186 @@ ToCatppuccinTheme class >> tooltipForegroundColor [
 	^ self isDark
 		  ifTrue: [ self colorNamed: #text ]
 		  ifFalse: [ self colorNamed: #base ]
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> buttonElementFor: anElement [
+
+	^ anElement
+		  withAllParentsDetect: [ :each | each class = ToButton or: [ each class = ToToggleButton ] ]
+		  ifFound: [ :button | button ]
+		  ifNone: [ nil ]
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinBaseButtonIconColorFor: aButton [
+
+	(aButton hasStamp: #primary) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-text-light-solid' ].
+	(aButton hasStamp: #link) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error' ]
+					   ifFalse: [ #'color-link' ]) ].
+	(aButton hasStamp: #text) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error' ]
+					   ifFalse: [ #'color-text' ]) ].
+	(aButton hasStamp: #danger) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-error' ].
+	^ aButton valueOfTokenNamed: #'color-text'
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinButtonIconSizeFor: anElement [
+
+	(anElement hasStamp: #'large-sizing') ifTrue: [ ^ anElement valueOfTokenNamed: #'button-icon-size-LG' ].
+	(anElement hasStamp: #'small-sizing') ifTrue: [ ^ anElement valueOfTokenNamed: #'button-icon-size-SM' ].
+	^ anElement valueOfTokenNamed: #'button-icon-size'
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinButtonIconicExtentFor: anElement [
+
+	(anElement hasStamp: #'large-sizing') ifTrue: [ ^ anElement valueOfTokenNamed: #'button-iconic-size-LG' ].
+	(anElement hasStamp: #'small-sizing') ifTrue: [ ^ anElement valueOfTokenNamed: #'button-iconic-size-SM' ].
+	^ anElement valueOfTokenNamed: #'button-iconic-size'
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinButtonPaddingInsetsFor: anElement [
+
+	| horizontal vertical |
+	(anElement hasStamp: #'large-sizing')
+		ifTrue: [
+				horizontal := anElement valueOfTokenNamed: #'button-padding-H-LG'.
+				vertical := anElement valueOfTokenNamed: #'button-padding-V-LG' ]
+		ifFalse: [
+				(anElement hasStamp: #'small-sizing')
+					ifTrue: [
+							horizontal := anElement valueOfTokenNamed: #'button-padding-H-SM'.
+							vertical := anElement valueOfTokenNamed: #'button-padding-V-SM' ]
+					ifFalse: [
+							horizontal := anElement valueOfTokenNamed: #'button-padding-H'.
+							vertical := anElement valueOfTokenNamed: #'button-padding-V' ] ].
+	^ BlInsets
+		  top: vertical
+		  left: horizontal
+		  bottom: vertical
+		  right: horizontal
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinHoverButtonIconColorFor: aButton [
+
+	(aButton hasStamp: #primary) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-text-light-solid' ].
+	(aButton hasStamp: #link) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error-hover' ]
+					   ifFalse: [ #'color-link-hover' ]) ].
+	(aButton hasStamp: #text) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error-hover' ]
+					   ifFalse: [ #'color-text' ]) ].
+	(aButton hasStamp: #danger) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-error-hover' ].
+	^ aButton valueOfTokenNamed: #'color-primary'
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinIconicButtonPaddingInsetsFor: anElement [
+
+	| padding |
+	(anElement hasStamp: #'large-sizing')
+		ifTrue: [ padding := anElement valueOfTokenNamed: #'button-iconic-padding-LG' ]
+		ifFalse: [
+				(anElement hasStamp: #'small-sizing')
+					ifTrue: [ padding := anElement valueOfTokenNamed: #'button-iconic-padding-SM' ]
+					ifFalse: [ padding := anElement valueOfTokenNamed: #'button-iconic-padding' ] ].
+	^ BlInsets all: padding
+]
+
+{ #category : 'private - button' }
+ToCatppuccinTheme >> catppuccinPressedButtonIconColorFor: aButton [
+
+	(aButton hasStamp: #primary) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-text-light-solid' ].
+	(aButton hasStamp: #link) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error-pressed' ]
+					   ifFalse: [ #'color-link-active' ]) ].
+	(aButton hasStamp: #text) ifTrue: [
+			^ aButton valueOfTokenNamed: ((aButton hasStamp: #danger)
+					   ifTrue: [ #'color-error-pressed' ]
+					   ifFalse: [ #'color-text' ]) ].
+	(aButton hasStamp: #danger) ifTrue: [ ^ aButton valueOfTokenNamed: #'color-error-pressed' ].
+	^ aButton valueOfTokenNamed: #'color-primary-pressed'
+]
+
+{ #category : 'rules declaring - button' }
+ToCatppuccinTheme >> declareButtonRules [
+
+	super declareButtonRules.
+	self declareCatppuccinButtonLayoutRules.
+	self declareCatppuccinButtonIconRules.
+	self declareCatppuccinStandardIconicButtonRules
+]
+
+{ #category : 'rules declaring - button' }
+ToCatppuccinTheme >> declareCatppuccinButtonIconRules [
+
+	{
+		ToButton asTypeSelector.
+		ToToggleButton asTypeSelector } do: [ :buttonSelector |
+			self select: (ToImage asTypeSelector withParent: buttonSelector atDepth: 2) style: [
+					self when: ToInstallSkinEvent do: [ :e |
+							| button |
+							button := self buttonElementFor: e.
+							e extent: (button ifNil: [ 16 asPoint ] ifNotNil: [ self catppuccinButtonIconSizeFor: button ]).
+							button ifNotNil: [ e innerImageColor: (self catppuccinBaseButtonIconColorFor: button) ] ].
+					self when: ToEnabledSkinEvent do: [ :e |
+							| button |
+							button := self buttonElementFor: e.
+							button ifNotNil: [ e innerImageColor: (self catppuccinBaseButtonIconColorFor: button) ] ].
+					self when: ToHoveredSkinEvent do: [ :e |
+							| button |
+							button := self buttonElementFor: e.
+							button ifNotNil: [ e innerImageColor: (self catppuccinHoverButtonIconColorFor: button) ] ].
+					self when: ToLeftSkinEvent do: [ :e |
+							| button |
+							button := self buttonElementFor: e.
+							button ifNotNil: [ e innerImageColor: (self catppuccinBaseButtonIconColorFor: button) ] ].
+					self when: ToPressedSkinEvent do: [ :e |
+							| button |
+							button := self buttonElementFor: e.
+							button ifNotNil: [ e innerImageColor: (self catppuccinPressedButtonIconColorFor: button) ] ].
+					self when: ToDisabledSkinEvent do: [ :e | e innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ] ]
+]
+
+{ #category : 'rules declaring - button' }
+ToCatppuccinTheme >> declareCatppuccinButtonLayoutRules [
+
+	{
+		ToButton asTypeSelector.
+		ToToggleButton asTypeSelector } do: [ :buttonSelector |
+			self select: buttonSelector style: [
+					self when: ToInstallSkinEvent write: (self property: #padding) with: [ :e | self catppuccinButtonPaddingInsetsFor: e ].
+					self when: ToInstallSkinEvent write: (self property: #startInterspace) with: [ :e |
+							(e hasIcon and: [ e hasLabel ])
+								ifTrue: [ e valueOfTokenNamed: #'button-interspace' ]
+								ifFalse: [ 0 ] ].
+					self when: ToInstallSkinEvent write: (self property: #endInterspace) with: [ :e |
+							(e hasEndElement and: [ e hasLabel ])
+								ifTrue: [ e valueOfTokenNamed: #'button-interspace' ]
+								ifFalse: [ 0 ] ].
+					self select: #iconic asStampSelector style: [
+							self
+								when: ToInstallSkinEvent
+								write: (self property: #padding)
+								with: [ :e | self catppuccinIconicButtonPaddingInsetsFor: e ].
+							self when: ToInstallSkinEvent write: (self property: #width) with: [ :e | (self catppuccinButtonIconicExtentFor: e) x ] ] ] ]
+]
+
+{ #category : 'rules declaring - button' }
+ToCatppuccinTheme >> declareCatppuccinStandardIconicButtonRules [
+
+	self select: (ToStandardIconicButton asTypeSelector exact: false) style: [
+			self when: ToInstallSkinEvent do: [ :e |
+					e extent: (self catppuccinButtonIconicExtentFor: e).
+					e padding: (self catppuccinIconicButtonPaddingInsetsFor: e) ] ]
 ]
