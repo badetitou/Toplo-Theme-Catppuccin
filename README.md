@@ -6,6 +6,7 @@
 Metacello new
    baseline: 'ToploThemeCatppuccin';
    repository: 'github://badetitou/Toplo-Theme-Catppuccin:main/src';
+	onConflictUseLoaded;
    load.
 ```
 
