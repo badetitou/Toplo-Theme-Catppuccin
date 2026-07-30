@@ -280,3 +280,18 @@ ToCatppuccinTheme class >> tooltipForegroundColor [
 		  ifTrue: [ self colorNamed: #text ]
 		  ifFalse: [ self colorNamed: #base ]
 ]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> declareMenuItemRules [
+
+	self
+	select: ToMenuItem asTypeSelector
+	style: [ self write: (self property: #'layout-orientation') with: [ :e | BlLinearLayoutHorizontalOrientation new ] ]
+]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> initializeStyleRules [ 
+
+	super initializeStyleRules.
+	self declareMenuItemRules
+]
