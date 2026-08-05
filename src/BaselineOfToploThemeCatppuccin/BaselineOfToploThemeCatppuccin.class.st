@@ -26,14 +26,11 @@ BaselineOfToploThemeCatppuccin >> defineGroups: spec [
 
 	spec
 		group: 'core' with: #( 'Toplo-Theme-Catppuccin' );
-		group: 'tests' with: #( 'core' 'Toplo-Theme-Catppuccin-Tests' );
 		group: 'default' with: #( 'core' )
 ]
 
 { #category : 'baselines' }
 BaselineOfToploThemeCatppuccin >> definePackages: spec [
 
-	spec
-		package: 'Toplo-Theme-Catppuccin' with: [ spec requires: #( 'Toplo' ) ];
-		package: 'Toplo-Theme-Catppuccin-Tests' with: [ spec requires: #( 'Toplo-Theme-Catppuccin' ) ]
+	spec package: 'Toplo-Theme-Catppuccin' with: [ spec requires: #( 'Toplo' ) ]
 ]
