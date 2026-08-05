@@ -196,6 +196,22 @@ ToCatppuccinTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-color-danger-selection' value: error).
 		  (ToTokenProperty name: #'divider-hovered-background' value: (overlay0 alpha: 0.18)).
 		  (ToTokenProperty name: #'divider-pressed-background' value: (overlay1 alpha: 0.32)) } , self buttonTokenProperties
+	  , self fontTokenProperties , self listTokenProperties
+]
+
+{ #category : 'accessing' }
+ToCatppuccinTheme class >> fontTokenProperties [
+
+	^ 	  {ToTokenProperty name: #'font-name' value: AeFontManager defaultFontFamilyName.
+ToTokenProperty name: #'font-size' value: 14.
+ToTokenProperty name: #'font-weight-attribute' value: BlFontWeightAttribute normal.
+ToTokenProperty name: #'font-size-in-tooltip' value: 12.
+ToTokenProperty name: #'font-size-H1' value: 38.
+ToTokenProperty name: #'font-size-H2' value: 30.
+ToTokenProperty name: #'font-size-H3' value: 24.
+ToTokenProperty name: #'font-size-H4' value: 20.
+ToTokenProperty name: #'font-size-H5' value: 16.
+ToTokenProperty name: #'font-weight-strong' value: 600}
 ]
 
 { #category : 'accessing' }
@@ -208,6 +224,20 @@ ToCatppuccinTheme class >> isDark [
 ToCatppuccinTheme class >> label [
 
 	^ 'Catppuccin'
+]
+
+{ #category : 'accessing' }
+ToCatppuccinTheme class >> listTokenProperties [
+
+	| listItemPadding |
+	listItemPadding := 2.
+	^ {
+		  (ToTokenProperty name: #'list-padding-H' value: listItemPadding).
+		  (ToTokenProperty name: #'list-padding-V' value: listItemPadding).
+		  (ToTokenProperty name: #'list-node-padding-H' value: listItemPadding).
+		  (ToTokenProperty name: #'list-node-padding-V' value: listItemPadding).
+		  (ToTokenProperty name: #'table-cell-padding-H' value: listItemPadding).
+		  (ToTokenProperty name: #'table-cell-padding-V' value: listItemPadding). }
 ]
 
 { #category : 'accessing' }
