@@ -15,19 +15,22 @@ ToCatppuccinThemeBuilder >> buildEditorColumn [
 						 layout: SpBoxLayout newHorizontal;
 						 yourself ];
 			 bind: [ :aPresenter :property |
-					 property value isColor
-						 ifTrue: [
-								 | dropList |
-								 dropList := self buildPaletteDropList.
-								 dropList whenSelectedItemChangedDo: [ :item | "there are duplicate... "
-										 self model tokenProperties
-											 select: [ :pro | pro name = property name ]
-											 thenDo: [ :pro | pro value: (self model class colorNamed: item key) ] ].
-								 aPresenter layout add: dropList ]
-						 ifFalse: [
-								 aPresenter layout add: (aPresenter newLabel
-										  label: 'test';
-										  yourself) ] ];
+					 property value isColor ifTrue: [
+							 | dropList |
+							 dropList := self buildPaletteDropList.
+							 dropList whenSelectedItemChangedDo: [ :item | "there are duplicate... "
+									 self model tokenProperties
+										 select: [ :pro | pro name = property name ]
+										 thenDo: [ :pro | pro value: (self model class colorNamed: item key) ] ].
+							 aPresenter layout add: dropList ].
+					 property value isNumber ifTrue: [
+							 | input |
+							 input := aPresenter newNumberInput
+								          text: property value;
+								          yourself.
+							 input whenNumberChangedDo: [ :newValue |
+								 self model tokenProperties select: [ :pro | pro name = property name ] thenDo: [ :pro | pro value: newValue ] ].
+							 aPresenter layout add: input ] ];
 			 yourself)
 ]
 

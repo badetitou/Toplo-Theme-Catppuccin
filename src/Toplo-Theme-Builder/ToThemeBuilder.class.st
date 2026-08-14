@@ -70,5 +70,5 @@ ToThemeBuilder >> initializePresenters [
 { #category : 'initialization' }
 ToThemeBuilder >> modelChanged [
 
-	propertyList items: self model tokenProperties
+	propertyList items: (self model tokenProperties sorted: [ :a :b | a name < b name ])
 ]

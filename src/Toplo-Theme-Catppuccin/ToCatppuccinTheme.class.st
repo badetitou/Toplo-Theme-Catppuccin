@@ -118,7 +118,7 @@ ToCatppuccinTheme class >> defaultTokenProperties [
 	^ super defaultTokenProperties , self paletteTokenProperties , {
 		  (ToTokenProperty name: #'sh-style-table' value: self syntaxHighlightStyleTable).
 		  (ToTokenProperty name: #'background-color' value: base).
-		  (ToTokenProperty name: #'color-bg-container' value: containerBackground).
+		  (ToTokenProperty name: #'color-bg-container' value: base).
 		  (ToTokenProperty name: #'color-bg-container-disabled' value: disabledBackground).
 		  (ToTokenProperty name: #'color-bg-tooltip' value: tooltipBackground).
 		  (ToTokenProperty name: #'color-bg-text-active' value: (overlay2 alpha: 0.24)).
