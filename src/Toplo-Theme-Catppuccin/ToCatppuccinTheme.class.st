@@ -158,6 +158,22 @@ ToCatppuccinTheme >> colorNamed: aName [
 	^ self class colorNamed: aName
 ]
 
+{ #category : 'theme - radius - fields' }
+ToCatppuccinTheme >> declareInputGeometry [
+
+	| rounded |
+	rounded := 6.
+	self
+		select: ToButton asTypeSelector
+		style: [ self write: (self property: #geometry) with: (BlRoundedRectangleGeometry cornerRadius: rounded) ].
+	self
+		select: ToTextField asTypeSelector
+		style: [ self write: (self property: #geometry) with: (BlRoundedRectangleGeometry cornerRadius: rounded) ].
+		self
+		select: (ToSelectElement asTypeSelector exact: false; yourself)
+		style: [ self write: (self property: #geometry) with: (BlRoundedRectangleGeometry cornerRadius: rounded) ]
+]
+
 { #category : 't - style sheet theme' }
 ToCatppuccinTheme >> declareMenuItemRules [
 
@@ -202,7 +218,8 @@ ToCatppuccinTheme >> initialize [
 ToCatppuccinTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.
-	self declareMenuItemRules
+	self declareMenuItemRules.
+	self declareInputGeometry.
 ]
 
 { #category : 't - style sheet theme' }
