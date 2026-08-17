@@ -18,6 +18,9 @@ ToCatppuccinThemeBuilder >> buildEditorColumn [
 					 property value isColor ifTrue: [
 							 | dropList |
 							 dropList := self buildPaletteDropList.
+							 self model class palette associations
+								 detect: [ :assoc | assoc value = ('#' , property value asHexString asLowercase) ]
+								 ifFound: [ :assoc | dropList selectItem: assoc ].
 							 dropList whenSelectedItemChangedDo: [ :item | "there are duplicate... "
 									 self model tokenProperties
 										 select: [ :pro | pro name = property name ]

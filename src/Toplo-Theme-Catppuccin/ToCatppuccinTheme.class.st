@@ -27,28 +27,6 @@ ToCatppuccinTheme class >> borderDisabledColor [
 		  ifFalse: [ self colorNamed: #surface0 ]
 ]
 
-{ #category : 'accessing' }
-ToCatppuccinTheme class >> buttonTokenProperties [
-
-	^ {
-		  (ToTokenProperty name: #'button-padding-H' value: 12).
-		  (ToTokenProperty name: #'button-padding-V' value: 5).
-		  (ToTokenProperty name: #'button-padding-H-SM' value: 10).
-		  (ToTokenProperty name: #'button-padding-V-SM' value: 3).
-		  (ToTokenProperty name: #'button-padding-H-LG' value: 16).
-		  (ToTokenProperty name: #'button-padding-V-LG' value: 7).
-		  (ToTokenProperty name: #'button-icon-size' value: 16 asPoint).
-		  (ToTokenProperty name: #'button-icon-size-SM' value: 14 asPoint).
-		  (ToTokenProperty name: #'button-icon-size-LG' value: 18 asPoint).
-		  (ToTokenProperty name: #'button-iconic-size' value: 32 asPoint).
-		  (ToTokenProperty name: #'button-iconic-size-SM' value: 24 asPoint).
-		  (ToTokenProperty name: #'button-iconic-size-LG' value: 40 asPoint).
-		  (ToTokenProperty name: #'button-iconic-padding' value: 8).
-		  (ToTokenProperty name: #'button-iconic-padding-SM' value: 5).
-		  (ToTokenProperty name: #'button-iconic-padding-LG' value: 11).
-		  (ToTokenProperty name: #'button-interspace' value: 10) }
-]
-
 { #category : 'testing' }
 ToCatppuccinTheme class >> canBeDefault [
 
@@ -78,143 +56,6 @@ ToCatppuccinTheme class >> containerDisabledBackgroundColor [
 ]
 
 { #category : 'accessing' }
-ToCatppuccinTheme class >> defaultTokenProperties [
-
-	| primary hover pressed link linkHover linkActive error errorHover errorPressed base text subtext0 subtext1 overlay0 overlay1 overlay2 surface0 surface1 tooltipBackground tooltipForeground solidText containerBackground disabledBackground borderColor borderDisabled |
-	primary := self primaryColor.
-	hover := self primaryHoverColor.
-	pressed := self primaryPressedColor.
-	link := self colorNamed: #blue.
-	linkHover := self isDark
-		             ifTrue: [ link lighter ]
-		             ifFalse: [ link darker ].
-	linkActive := self isDark
-		              ifTrue: [ link darker ]
-		              ifFalse: [ link darker darker ].
-	error := self colorNamed: #red.
-	errorHover := self isDark
-		              ifTrue: [ error lighter ]
-		              ifFalse: [ error darker ].
-	errorPressed := self isDark
-		                ifTrue: [ error darker ]
-		                ifFalse: [ error darker darker ].
-	base := self colorNamed: #base.
-	text := self colorNamed: #text.
-	subtext0 := self colorNamed: #subtext0.
-	subtext1 := self colorNamed: #subtext1.
-	overlay0 := self colorNamed: #overlay0.
-	overlay1 := self colorNamed: #overlay1.
-	overlay2 := self colorNamed: #overlay2.
-	surface0 := self colorNamed: #surface0.
-	surface1 := self colorNamed: #surface1.
-	tooltipBackground := self tooltipBackgroundColor.
-	tooltipForeground := self tooltipForegroundColor.
-	solidText := self solidTextColor.
-	containerBackground := self containerBackgroundColor.
-	disabledBackground := self containerDisabledBackgroundColor.
-	borderColor := self borderColor.
-	borderDisabled := self borderDisabledColor.
-
-	^ super defaultTokenProperties , self paletteTokenProperties , {
-		  (ToTokenProperty name: #'sh-style-table' value: self syntaxHighlightStyleTable).
-		  (ToTokenProperty name: #'background-color' value: base).
-		  (ToTokenProperty name: #'color-bg-container' value: base).
-		  (ToTokenProperty name: #'color-bg-container-disabled' value: disabledBackground).
-		  (ToTokenProperty name: #'color-bg-tooltip' value: tooltipBackground).
-		  (ToTokenProperty name: #'color-bg-text-active' value: (overlay2 alpha: 0.24)).
-		  (ToTokenProperty name: #'color-bg-text-hover' value: (overlay1 alpha: 0.16)).
-		  (ToTokenProperty name: #'color-border' value: borderColor).
-		  (ToTokenProperty name: #'color-border-checkable' value: Color transparent).
-		  (ToTokenProperty name: #'color-border-disabled' value: borderDisabled).
-		  (ToTokenProperty name: #'color-border-indeterminate' value: hover).
-		  (ToTokenProperty name: #'color-error-bg' value: (error alpha: (self isDark
-					     ifTrue: [ 0.18 ]
-					     ifFalse: [ 0.10 ]))).
-		  (ToTokenProperty name: #'color-error-hover' value: errorHover).
-		  (ToTokenProperty name: #'color-error-pressed' value: errorPressed).
-		  (ToTokenProperty name: #'color-error' value: error).
-		  (ToTokenProperty name: #'color-image-disabled' value: overlay1).
-		  (ToTokenProperty name: #'color-image-light-solid' value: solidText).
-		  (ToTokenProperty name: #'color-link' value: link).
-		  (ToTokenProperty name: #'color-link-active' value: linkActive).
-		  (ToTokenProperty name: #'color-link-hover' value: linkHover).
-		  (ToTokenProperty name: #'color-primary' value: primary).
-		  (ToTokenProperty name: #'color-primary-pressed' value: pressed).
-		  (ToTokenProperty name: #'color-primary-checked' value: primary).
-		  (ToTokenProperty name: #'text-color-primary-checked' value: solidText).
-		  (ToTokenProperty name: #'color-primary-unchecked' value: containerBackground).
-		  (ToTokenProperty name: #'color-primary-indeterminate' value: (primary alpha: 0.5)).
-		  (ToTokenProperty name: #'color-primary-hover' value: hover).
-		  (ToTokenProperty name: #'color-success' value: (self colorNamed: #green)).
-		  (ToTokenProperty name: #'color-warning' value: (self colorNamed: #yellow)).
-		  (ToTokenProperty name: #'color-text' value: text).
-		  (ToTokenProperty name: #'color-text-placeholder' value: overlay1).
-		  (ToTokenProperty name: #'color-text-description' value: subtext0).
-		  (ToTokenProperty name: #'color-text-disabled' value: overlay0).
-		  (ToTokenProperty name: #'color-text-heading' value: text).
-		  (ToTokenProperty name: #'color-text-light-solid' value: solidText).
-		  (ToTokenProperty name: #'color-text-secondary' value: subtext1).
-		  (ToTokenProperty name: #'selected-focused-foreground' value: solidText).
-		  (ToTokenProperty name: #'selected-unfocused-foreground' value: primary).
-		  (ToTokenProperty name: #'text-foreground-in-tooltip' value: tooltipForeground).
-		  (ToTokenProperty name: #'effect-window' value: (BlGaussianShadowEffect
-				    color: ((self isDark
-						      ifTrue: [ Color black ]
-						      ifFalse: [ self colorNamed: #crust ]) alpha: 0.35)
-				    width: 20
-				    offset: 0 @ 4)).
-		  (ToTokenProperty name: #'effect-window-menu' value: (BlGaussianShadowEffect
-				    color: ((self isDark
-						      ifTrue: [ Color black ]
-						      ifFalse: [ self colorNamed: #crust ]) alpha: 0.28)
-				    width: 14
-				    offset: 0 asPoint)).
-		  (ToTokenProperty name: #'focus-border-paint' value: primary).
-		  (ToTokenProperty name: #'border-paint' value: borderColor).
-		  (ToTokenProperty name: #'segmented-background' value: (surface0 alpha: (self isDark
-					     ifTrue: [ 0.55 ]
-					     ifFalse: [ 0.75 ]))).
-		  (ToTokenProperty name: #'text-editor-background-disabled' value: disabledBackground).
-		  (ToTokenProperty name: #'checkbox-color' value: primary).
-		  (ToTokenProperty name: #'switch-checked-background' value: primary).
-		  (ToTokenProperty name: #'switch-unchecked-background' value: surface1).
-		  (ToTokenProperty name: #'switch-disabled-background' value: disabledBackground).
-		  (ToTokenProperty name: #'switch-handle-disabled-background' value: surface0).
-		  (ToTokenProperty name: #'switch-handle-enabled-background' value: solidText).
-		  (ToTokenProperty name: #'color-list-primary-selection-focused' value: primary).
-		  (ToTokenProperty name: #'color-list-primary-selection-over-focused' value: (hover alpha: 0.40)).
-		  (ToTokenProperty name: #'color-list-primary-selection-unfocused' value: (primary alpha: 0.25)).
-		  (ToTokenProperty name: #'color-list-primary-selection-over-unfocused' value: (primary alpha: 0.16)).
-		  (ToTokenProperty name: #'color-primary-selection-focused' value: (primary alpha: 0.25)).
-		  (ToTokenProperty name: #'color-primary-selection-over-focused' value: (hover alpha: 0.18)).
-		  (ToTokenProperty name: #'color-primary-selection-unfocused' value: (primary alpha: 0.16)).
-		  (ToTokenProperty name: #'color-primary-selection-over-unfocused' value: (primary alpha: 0.10)).
-		  (ToTokenProperty name: #'color-primary-selection-disabled' value: (overlay0 alpha: 0.24)).
-		  (ToTokenProperty name: #'color-secondary-selection' value: (overlay0 alpha: 0.15)).
-		  (ToTokenProperty name: #'tab-color-secondary-selection' value: (overlay1 alpha: 0.35)).
-		  (ToTokenProperty name: #'border-color-primary-selection' value: primary).
-		  (ToTokenProperty name: #'border-color-danger-selection' value: error).
-		  (ToTokenProperty name: #'divider-hovered-background' value: (overlay0 alpha: 0.18)).
-		  (ToTokenProperty name: #'divider-pressed-background' value: (overlay1 alpha: 0.32)) } , self buttonTokenProperties
-	  , self fontTokenProperties , self listTokenProperties
-]
-
-{ #category : 'accessing' }
-ToCatppuccinTheme class >> fontTokenProperties [
-
-	^ 	  {ToTokenProperty name: #'font-name' value: AeFontManager defaultFontFamilyName.
-ToTokenProperty name: #'font-size' value: 14.
-ToTokenProperty name: #'font-weight-attribute' value: BlFontWeightAttribute normal.
-ToTokenProperty name: #'font-size-in-tooltip' value: 12.
-ToTokenProperty name: #'font-size-H1' value: 38.
-ToTokenProperty name: #'font-size-H2' value: 30.
-ToTokenProperty name: #'font-size-H3' value: 24.
-ToTokenProperty name: #'font-size-H4' value: 20.
-ToTokenProperty name: #'font-size-H5' value: 16.
-ToTokenProperty name: #'font-weight-strong' value: 600}
-]
-
-{ #category : 'accessing' }
 ToCatppuccinTheme class >> isDark [
 
 	self subclassResponsibility
@@ -227,30 +68,9 @@ ToCatppuccinTheme class >> label [
 ]
 
 { #category : 'accessing' }
-ToCatppuccinTheme class >> listTokenProperties [
-
-	| listItemPadding |
-	listItemPadding := 2.
-	^ {
-		  (ToTokenProperty name: #'list-padding-H' value: listItemPadding).
-		  (ToTokenProperty name: #'list-padding-V' value: listItemPadding).
-		  (ToTokenProperty name: #'list-node-padding-H' value: listItemPadding).
-		  (ToTokenProperty name: #'list-node-padding-V' value: listItemPadding).
-		  (ToTokenProperty name: #'table-cell-padding-H' value: listItemPadding).
-		  (ToTokenProperty name: #'table-cell-padding-V' value: listItemPadding). }
-]
-
-{ #category : 'accessing' }
 ToCatppuccinTheme class >> palette [
 
 	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-ToCatppuccinTheme class >> paletteTokenProperties [
-
-	^ self palette associations collect: [ :association |
-		  ToTokenProperty name: ('catppuccin-' , association key asString) asSymbol value: (Color fromHexString: association value) ]
 ]
 
 { #category : 'accessing' }
@@ -311,6 +131,33 @@ ToCatppuccinTheme class >> tooltipForegroundColor [
 		  ifFalse: [ self colorNamed: #base ]
 ]
 
+{ #category : 'accessing' }
+ToCatppuccinTheme >> buttonTokenProperties [
+
+	^ {
+		  (self ensureTokenNamed: #'button-padding-H' withValue: 12).
+		  (self ensureTokenNamed: #'button-padding-V' withValue: 5).
+		  (self ensureTokenNamed: #'button-padding-H-SM' withValue: 10).
+		  (self ensureTokenNamed: #'button-padding-V-SM' withValue: 3).
+		  (self ensureTokenNamed: #'button-padding-H-LG' withValue: 16).
+		  (self ensureTokenNamed: #'button-padding-V-LG' withValue: 7).
+		  (self ensureTokenNamed: #'button-icon-size' withValue: 16 asPoint).
+		  (self ensureTokenNamed: #'button-icon-size-SM' withValue: 14 asPoint).
+		  (self ensureTokenNamed: #'button-icon-size-LG' withValue: 18 asPoint).
+		  (self ensureTokenNamed: #'button-iconic-size' withValue: 32 asPoint).
+		  (self ensureTokenNamed: #'button-iconic-size-SM' withValue: 24 asPoint).
+		  (self ensureTokenNamed: #'button-iconic-size-LG' withValue: 40 asPoint).
+		  (self ensureTokenNamed: #'button-iconic-padding' withValue: 8).
+		  (self ensureTokenNamed: #'button-iconic-padding-SM' withValue: 5).
+		  (self ensureTokenNamed: #'button-iconic-padding-LG' withValue: 11).
+		  (self ensureTokenNamed: #'button-interspace' withValue: 10) }
+]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> colorNamed: aName [
+	^ self class colorNamed: aName
+]
+
 { #category : 't - style sheet theme' }
 ToCatppuccinTheme >> declareMenuItemRules [
 
@@ -320,8 +167,192 @@ ToCatppuccinTheme >> declareMenuItemRules [
 ]
 
 { #category : 't - style sheet theme' }
+ToCatppuccinTheme >> ensureTokenNamed: aName withValue: aValue [
+
+	tokenProperties
+		detect: [ :pro | pro name = aName ]
+		ifFound: [ :prop | prop value: aValue ]
+		ifNone: [ tokenProperties add: (ToTokenProperty name: aName value: aValue) ]
+]
+
+{ #category : 'accessing' }
+ToCatppuccinTheme >> fontTokenProperties [
+
+	^ {
+		  (self ensureTokenNamed: #'font-name' withValue: AeFontManager defaultFontFamilyName).
+		  (self ensureTokenNamed: #'font-size' withValue: 14).
+		  (self ensureTokenNamed: #'font-weight-attribute' withValue: BlFontWeightAttribute normal).
+		  (self ensureTokenNamed: #'font-size-in-tooltip' withValue: 12).
+		  (self ensureTokenNamed: #'font-size-H1' withValue: 38).
+		  (self ensureTokenNamed: #'font-size-H2' withValue: 30).
+		  (self ensureTokenNamed: #'font-size-H3' withValue: 24).
+		  (self ensureTokenNamed: #'font-size-H4' withValue: 20).
+		  (self ensureTokenNamed: #'font-size-H5' withValue: 16).
+		  (self ensureTokenNamed: #'font-weight-strong' withValue: 600) }
+]
+
+{ #category : 'initialization' }
+ToCatppuccinTheme >> initialize [
+
+	super initialize.
+	self updateTokens.
+]
+
+{ #category : 't - style sheet theme' }
 ToCatppuccinTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.
 	self declareMenuItemRules
+]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> isDark [
+
+	^ self class isDark
+]
+
+{ #category : 'accessing' }
+ToCatppuccinTheme >> listTokenProperties [
+
+	| listItemPadding |
+	listItemPadding := 2.
+
+	self ensureTokenNamed: #'list-padding-H' withValue: listItemPadding.
+	self ensureTokenNamed: #'list-padding-V' withValue: listItemPadding.
+	self ensureTokenNamed: #'list-node-padding-H' withValue: listItemPadding.
+	self ensureTokenNamed: #'list-node-padding-V' withValue: listItemPadding.
+	self ensureTokenNamed: #'table-cell-padding-H' withValue: listItemPadding.
+	self ensureTokenNamed: #'table-cell-padding-V' withValue: listItemPadding
+]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> paletteTokenProperties [
+
+	^ self class palette associations collect: [ :association |
+		  ToTokenProperty name: ('catppuccin-' , association key asString) asSymbol value: (Color fromHexString: association value) ]
+]
+
+{ #category : 't - style sheet theme' }
+ToCatppuccinTheme >> updateTokens [
+
+	| primary hover pressed link linkHover linkActive error errorHover errorPressed base text subtext0 subtext1 overlay0 overlay1 overlay2 surface0 surface1 tooltipBackground tooltipForeground solidText containerBackground disabledBackground borderColor borderDisabled |
+	primary := self class primaryColor.
+	hover := self class primaryHoverColor.
+	pressed := self class primaryPressedColor.
+	link := self class colorNamed: #blue.
+	linkHover := self class isDark
+		             ifTrue: [ link lighter ]
+		             ifFalse: [ link darker ].
+	linkActive := self class isDark
+		              ifTrue: [ link darker ]
+		              ifFalse: [ link darker darker ].
+	error := self class colorNamed: #red.
+	errorHover := self class isDark
+		              ifTrue: [ error lighter ]
+		              ifFalse: [ error darker ].
+	errorPressed := self class isDark
+		                ifTrue: [ error darker ]
+		                ifFalse: [ error darker darker ].
+	base := self class colorNamed: #base.
+	text := self class colorNamed: #text.
+	subtext0 := self class colorNamed: #subtext0.
+	subtext1 := self class colorNamed: #subtext1.
+	overlay0 := self class colorNamed: #overlay0.
+	overlay1 := self class colorNamed: #overlay1.
+	overlay2 := self class colorNamed: #overlay2.
+	surface0 := self class colorNamed: #surface0.
+	surface1 := self class colorNamed: #surface1.
+	tooltipBackground := self class tooltipBackgroundColor.
+	tooltipForeground := self class tooltipForegroundColor.
+	solidText := self class solidTextColor.
+	containerBackground := self class containerBackgroundColor.
+	disabledBackground := self class containerDisabledBackgroundColor.
+	borderColor := self class borderColor.
+	borderDisabled := self class borderDisabledColor.
+
+	self paletteTokenProperties.
+	{
+		(self ensureTokenNamed: #'sh-style-table' withValue: self class syntaxHighlightStyleTable).
+		(self ensureTokenNamed: #'background-color' withValue: base).
+		(self ensureTokenNamed: #'color-bg-container' withValue: base).
+		(self ensureTokenNamed: #'color-bg-container-disabled' withValue: disabledBackground).
+		(self ensureTokenNamed: #'color-bg-tooltip' withValue: tooltipBackground).
+		(self ensureTokenNamed: #'color-bg-text-active' withValue: (overlay2 alpha: 0.24)).
+		(self ensureTokenNamed: #'color-bg-text-hover' withValue: (overlay1 alpha: 0.16)).
+		(self ensureTokenNamed: #'color-border' withValue: borderColor).
+		(self ensureTokenNamed: #'color-border-checkable' withValue: Color transparent).
+		(self ensureTokenNamed: #'color-border-disabled' withValue: borderDisabled).
+		(self ensureTokenNamed: #'color-border-indeterminate' withValue: hover).
+		(self ensureTokenNamed: #'color-error-bg' withValue: (error alpha: (self class isDark
+					   ifTrue: [ 0.18 ]
+					   ifFalse: [ 0.10 ]))).
+		(self ensureTokenNamed: #'color-error-hover' withValue: errorHover).
+		(self ensureTokenNamed: #'color-error-pressed' withValue: errorPressed).
+		(self ensureTokenNamed: #'color-error' withValue: error).
+		(self ensureTokenNamed: #'color-image-disabled' withValue: overlay1).
+		(self ensureTokenNamed: #'color-image-light-solid' withValue: solidText).
+		(self ensureTokenNamed: #'color-link' withValue: link).
+		(self ensureTokenNamed: #'color-link-active' withValue: linkActive).
+		(self ensureTokenNamed: #'color-link-hover' withValue: linkHover).
+		(self ensureTokenNamed: #'color-primary' withValue: primary).
+		(self ensureTokenNamed: #'color-primary-pressed' withValue: pressed).
+		(self ensureTokenNamed: #'color-primary-checked' withValue: primary).
+		(self ensureTokenNamed: #'text-color-primary-checked' withValue: solidText).
+		(self ensureTokenNamed: #'color-primary-unchecked' withValue: containerBackground).
+		(self ensureTokenNamed: #'color-primary-indeterminate' withValue: (primary alpha: 0.5)).
+		(self ensureTokenNamed: #'color-primary-hover' withValue: hover).
+		(self ensureTokenNamed: #'color-success' withValue: (self colorNamed: #green)).
+		(self ensureTokenNamed: #'color-warning' withValue: (self colorNamed: #yellow)).
+		(self ensureTokenNamed: #'color-text' withValue: text).
+		(self ensureTokenNamed: #'color-text-placeholder' withValue: overlay1).
+		(self ensureTokenNamed: #'color-text-description' withValue: subtext0).
+		(self ensureTokenNamed: #'color-text-disabled' withValue: overlay0).
+		(self ensureTokenNamed: #'color-text-heading' withValue: text).
+		(self ensureTokenNamed: #'color-text-light-solid' withValue: solidText).
+		(self ensureTokenNamed: #'color-text-secondary' withValue: subtext1).
+		(self ensureTokenNamed: #'selected-focused-foreground' withValue: solidText).
+		(self ensureTokenNamed: #'selected-unfocused-foreground' withValue: primary).
+		(self ensureTokenNamed: #'text-foreground-in-tooltip' withValue: tooltipForeground).
+		(self ensureTokenNamed: #'effect-window' withValue: (BlGaussianShadowEffect
+				  color: ((self isDark
+						    ifTrue: [ Color black ]
+						    ifFalse: [ self colorNamed: #crust ]) alpha: 0.35)
+				  width: 20
+				  offset: 0 @ 4)).
+		(self ensureTokenNamed: #'effect-window-menu' withValue: (BlGaussianShadowEffect
+				  color: ((self isDark
+						    ifTrue: [ Color black ]
+						    ifFalse: [ self colorNamed: #crust ]) alpha: 0.28)
+				  width: 14
+				  offset: 0 asPoint)).
+		(self ensureTokenNamed: #'focus-border-paint' withValue: primary).
+		(self ensureTokenNamed: #'border-paint' withValue: borderColor).
+		(self ensureTokenNamed: #'segmented-background' withValue: (surface0 alpha: (self isDark
+					   ifTrue: [ 0.55 ]
+					   ifFalse: [ 0.75 ]))).
+		(self ensureTokenNamed: #'text-editor-background-disabled' withValue: disabledBackground).
+		(self ensureTokenNamed: #'checkbox-color' withValue: primary).
+		(self ensureTokenNamed: #'switch-checked-background' withValue: primary).
+		(self ensureTokenNamed: #'switch-unchecked-background' withValue: surface1).
+		(self ensureTokenNamed: #'switch-disabled-background' withValue: disabledBackground).
+		(self ensureTokenNamed: #'switch-handle-disabled-background' withValue: surface0).
+		(self ensureTokenNamed: #'switch-handle-enabled-background' withValue: solidText).
+		(self ensureTokenNamed: #'color-list-primary-selection-focused' withValue: primary).
+		(self ensureTokenNamed: #'color-list-primary-selection-over-focused' withValue: (hover alpha: 0.40)).
+		(self ensureTokenNamed: #'color-list-primary-selection-unfocused' withValue: (primary alpha: 0.25)).
+		(self ensureTokenNamed: #'color-list-primary-selection-over-unfocused' withValue: (primary alpha: 0.16)).
+		(self ensureTokenNamed: #'color-primary-selection-focused' withValue: (primary alpha: 0.25)).
+		(self ensureTokenNamed: #'color-primary-selection-over-focused' withValue: (hover alpha: 0.18)).
+		(self ensureTokenNamed: #'color-primary-selection-unfocused' withValue: (primary alpha: 0.16)).
+		(self ensureTokenNamed: #'color-primary-selection-over-unfocused' withValue: (primary alpha: 0.10)).
+		(self ensureTokenNamed: #'color-primary-selection-disabled' withValue: (overlay0 alpha: 0.24)).
+		(self ensureTokenNamed: #'color-secondary-selection' withValue: (overlay0 alpha: 0.15)).
+		(self ensureTokenNamed: #'tab-color-secondary-selection' withValue: (overlay1 alpha: 0.35)).
+		(self ensureTokenNamed: #'border-color-primary-selection' withValue: primary).
+		(self ensureTokenNamed: #'border-color-danger-selection' withValue: error).
+		(self ensureTokenNamed: #'divider-hovered-background' withValue: (overlay0 alpha: 0.18)).
+		(self ensureTokenNamed: #'divider-pressed-background' withValue: (overlay1 alpha: 0.32)) }.
+	self buttonTokenProperties.
+	self fontTokenProperties.
+	self listTokenProperties
 ]
