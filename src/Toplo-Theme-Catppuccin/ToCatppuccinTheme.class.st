@@ -158,6 +158,18 @@ ToCatppuccinTheme >> colorNamed: aName [
 	^ self class colorNamed: aName
 ]
 
+{ #category : 'theme - color - text' }
+ToCatppuccinTheme >> declareColorText [
+
+	self ensureTokenNamed: #'color-text' withValue: (self colorNamed: #text).
+	self ensureTokenNamed: #'color-text-placeholder' withValue: (self colorNamed: #overlay1).
+	self ensureTokenNamed: #'color-text-description' withValue: (self colorNamed: #subtext0).
+	self ensureTokenNamed: #'color-text-disabled' withValue: (self colorNamed: #overlay0).
+	self ensureTokenNamed: #'color-text-heading' withValue: (self colorNamed: #text).
+	self ensureTokenNamed: #'color-text-light-solid' withValue: (self colorNamed: #text).
+	self ensureTokenNamed: #'color-text-secondary' withValue: (self colorNamed: #subtext1)
+]
+
 { #category : 'theme - radius - fields' }
 ToCatppuccinTheme >> declareInputGeometry [
 
@@ -220,6 +232,7 @@ ToCatppuccinTheme >> initializeStyleRules [
 	super initializeStyleRules.
 	self declareMenuItemRules.
 	self declareInputGeometry.
+	self declareColorText.
 ]
 
 { #category : 't - style sheet theme' }
@@ -320,13 +333,6 @@ ToCatppuccinTheme >> updateTokens [
 		(self ensureTokenNamed: #'color-primary-hover' withValue: hover).
 		(self ensureTokenNamed: #'color-success' withValue: (self colorNamed: #green)).
 		(self ensureTokenNamed: #'color-warning' withValue: (self colorNamed: #yellow)).
-		(self ensureTokenNamed: #'color-text' withValue: text).
-		(self ensureTokenNamed: #'color-text-placeholder' withValue: overlay1).
-		(self ensureTokenNamed: #'color-text-description' withValue: subtext0).
-		(self ensureTokenNamed: #'color-text-disabled' withValue: overlay0).
-		(self ensureTokenNamed: #'color-text-heading' withValue: text).
-		(self ensureTokenNamed: #'color-text-light-solid' withValue: solidText).
-		(self ensureTokenNamed: #'color-text-secondary' withValue: subtext1).
 		(self ensureTokenNamed: #'selected-focused-foreground' withValue: solidText).
 		(self ensureTokenNamed: #'selected-unfocused-foreground' withValue: primary).
 		(self ensureTokenNamed: #'text-foreground-in-tooltip' withValue: tooltipForeground).
