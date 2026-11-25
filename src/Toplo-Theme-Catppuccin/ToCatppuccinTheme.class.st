@@ -6,6 +6,13 @@ Concrete subclasses only have to provide their palette, label and dark/light fla
 Class {
 	#name : 'ToCatppuccinTheme',
 	#superclass : 'ToRawTheme',
+	#instVars : [
+		'palette',
+		'roles',
+		'radius',
+		'fontSize',
+		'buttonScale'
+	],
 	#category : 'Toplo-Theme-Catppuccin-Catppuccin',
 	#package : 'Toplo-Theme-Catppuccin',
 	#tag : 'Catppuccin'
@@ -55,6 +62,11 @@ ToCatppuccinTheme class >> containerDisabledBackgroundColor [
 		  ifFalse: [ self colorNamed: #surface0 ]
 ]
 
+{ #category : 'configuration' }
+ToCatppuccinTheme class >> defaultRoles [
+	^ { #primary -> #mauve. #info -> #blue. #success -> #green. #warning -> #yellow. #error -> #red } asDictionary
+]
+
 { #category : 'accessing' }
 ToCatppuccinTheme class >> isDark [
 
@@ -65,6 +77,28 @@ ToCatppuccinTheme class >> isDark [
 ToCatppuccinTheme class >> label [
 
 	^ 'Catppuccin'
+]
+
+{ #category : 'instance creation' }
+ToCatppuccinTheme class >> newWithPalette: aPalette roles: aRoles radius: aNumber [
+	^ self basicNew
+		  palette: aPalette;
+		  roles: aRoles;
+		  radius: aNumber;
+		  initialize;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+ToCatppuccinTheme class >> newWithPalette: aPalette roles: aRoles radius: aNumber fontSize: aFontSize buttonScale: aScale [
+	^ self basicNew
+		  palette: aPalette;
+		  roles: aRoles;
+		  radius: aNumber;
+		  fontSize: aFontSize;
+		  buttonScale: aScale;
+		  initialize;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -131,31 +165,75 @@ ToCatppuccinTheme class >> tooltipForegroundColor [
 		  ifFalse: [ self colorNamed: #base ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> borderColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #surface2 ]
+		  ifFalse: [ self colorNamed: #surface1 ]
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> borderDisabledColor [
+
+	^ self isDark
+		  ifTrue: [ (self colorNamed: #overlay0) alpha: 0.75 ]
+		  ifFalse: [ self colorNamed: #surface0 ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> buttonScale [
+	"Scale of the button paddings and spacing, in percent."
+	^ buttonScale ifNil: [ buttonScale := 100 ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> buttonScale: aNumber [
+	buttonScale := aNumber
+]
+
+{ #category : 'tokens' }
 ToCatppuccinTheme >> buttonTokenProperties [
 
 	^ {
-		  (self ensureTokenNamed: #'button-padding-H' withValue: 12).
-		  (self ensureTokenNamed: #'button-padding-V' withValue: 5).
-		  (self ensureTokenNamed: #'button-padding-H-SM' withValue: 10).
-		  (self ensureTokenNamed: #'button-padding-V-SM' withValue: 3).
-		  (self ensureTokenNamed: #'button-padding-H-LG' withValue: 16).
-		  (self ensureTokenNamed: #'button-padding-V-LG' withValue: 7).
+		  (self ensureTokenNamed: #'button-padding-H' withValue: (self scaled: 12)).
+		  (self ensureTokenNamed: #'button-padding-V' withValue: (self scaled: 5)).
+		  (self ensureTokenNamed: #'button-padding-H-SM' withValue: (self scaled: 10)).
+		  (self ensureTokenNamed: #'button-padding-V-SM' withValue: (self scaled: 3)).
+		  (self ensureTokenNamed: #'button-padding-H-LG' withValue: (self scaled: 16)).
+		  (self ensureTokenNamed: #'button-padding-V-LG' withValue: (self scaled: 7)).
 		  (self ensureTokenNamed: #'button-icon-size' withValue: 16 asPoint).
 		  (self ensureTokenNamed: #'button-icon-size-SM' withValue: 14 asPoint).
 		  (self ensureTokenNamed: #'button-icon-size-LG' withValue: 18 asPoint).
 		  (self ensureTokenNamed: #'button-iconic-size' withValue: 32 asPoint).
 		  (self ensureTokenNamed: #'button-iconic-size-SM' withValue: 24 asPoint).
 		  (self ensureTokenNamed: #'button-iconic-size-LG' withValue: 40 asPoint).
-		  (self ensureTokenNamed: #'button-iconic-padding' withValue: 8).
-		  (self ensureTokenNamed: #'button-iconic-padding-SM' withValue: 5).
-		  (self ensureTokenNamed: #'button-iconic-padding-LG' withValue: 11).
-		  (self ensureTokenNamed: #'button-interspace' withValue: 10) }
+		  (self ensureTokenNamed: #'button-iconic-padding' withValue: (self scaled: 8)).
+		  (self ensureTokenNamed: #'button-iconic-padding-SM' withValue: (self scaled: 5)).
+		  (self ensureTokenNamed: #'button-iconic-padding-LG' withValue: (self scaled: 11)).
+		  (self ensureTokenNamed: #'button-interspace' withValue: (self scaled: 10)) }
+
 ]
 
-{ #category : 't - style sheet theme' }
+{ #category : 'configuration' }
 ToCatppuccinTheme >> colorNamed: aName [
-	^ self class colorNamed: aName
+	^ Color fromHexString: (self palette at: aName)
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> containerBackgroundColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #surface0 ]
+		  ifFalse: [ self colorNamed: #mantle ]
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> containerDisabledBackgroundColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #mantle ]
+		  ifFalse: [ self colorNamed: #surface0 ]
 ]
 
 { #category : 'theme - color - text' }
@@ -170,11 +248,11 @@ ToCatppuccinTheme >> declareColorText [
 	self ensureTokenNamed: #'color-text-secondary' withValue: (self colorNamed: #subtext1)
 ]
 
-{ #category : 'theme - radius - fields' }
+{ #category : 'style rules' }
 ToCatppuccinTheme >> declareInputGeometry [
 
 	| rounded |
-	rounded := 6.
+	rounded := self radius.
 	self
 		select: ToButton asTypeSelector
 		style: [ self write: (self property: #geometry) with: (BlRoundedRectangleGeometry cornerRadius: rounded) ].
@@ -203,19 +281,35 @@ ToCatppuccinTheme >> ensureTokenNamed: aName withValue: aValue [
 		ifNone: [ tokenProperties add: (ToTokenProperty name: aName value: aValue) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'configuration' }
+ToCatppuccinTheme >> fontScaled: aNumber [
+	"Scales a size defined for the 14pt base font."
+	^ (aNumber * self fontSize / 14) rounded
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> fontSize [
+	^ fontSize ifNil: [ fontSize := 14 ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> fontSize: aNumber [
+	fontSize := aNumber
+]
+
+{ #category : 'tokens' }
 ToCatppuccinTheme >> fontTokenProperties [
 
 	^ {
 		  (self ensureTokenNamed: #'font-name' withValue: AeFontManager defaultFontFamilyName).
-		  (self ensureTokenNamed: #'font-size' withValue: 14).
+		  (self ensureTokenNamed: #'font-size' withValue: self fontSize).
 		  (self ensureTokenNamed: #'font-weight-attribute' withValue: BlFontWeightAttribute normal).
-		  (self ensureTokenNamed: #'font-size-in-tooltip' withValue: 12).
-		  (self ensureTokenNamed: #'font-size-H1' withValue: 38).
-		  (self ensureTokenNamed: #'font-size-H2' withValue: 30).
-		  (self ensureTokenNamed: #'font-size-H3' withValue: 24).
-		  (self ensureTokenNamed: #'font-size-H4' withValue: 20).
-		  (self ensureTokenNamed: #'font-size-H5' withValue: 16).
+		  (self ensureTokenNamed: #'font-size-in-tooltip' withValue: (self fontScaled: 12)).
+		  (self ensureTokenNamed: #'font-size-H1' withValue: (self fontScaled: 38)).
+		  (self ensureTokenNamed: #'font-size-H2' withValue: (self fontScaled: 30)).
+		  (self ensureTokenNamed: #'font-size-H3' withValue: (self fontScaled: 24)).
+		  (self ensureTokenNamed: #'font-size-H4' withValue: (self fontScaled: 20)).
+		  (self ensureTokenNamed: #'font-size-H5' withValue: (self fontScaled: 16)).
 		  (self ensureTokenNamed: #'font-weight-strong' withValue: 600) }
 ]
 
@@ -255,54 +349,150 @@ ToCatppuccinTheme >> listTokenProperties [
 	self ensureTokenNamed: #'table-cell-padding-V' withValue: listItemPadding
 ]
 
-{ #category : 't - style sheet theme' }
+{ #category : 'configuration' }
+ToCatppuccinTheme >> palette [
+	"The color palette of this theme instance, editable independently of the class palette."
+	^ palette ifNil: [ palette := self class palette copy ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> palette: aDictionary [
+	palette := aDictionary
+]
+
+{ #category : 'tokens' }
 ToCatppuccinTheme >> paletteTokenProperties [
 
-	^ self class palette associations collect: [ :association |
+	^ self palette associations collect: [ :association |
 		  ToTokenProperty name: ('catppuccin-' , association key asString) asSymbol value: (Color fromHexString: association value) ]
 ]
 
-{ #category : 't - style sheet theme' }
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> primaryColor [
+	^ self roleColor: #primary
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> primaryHoverColor [
+
+	| primary |
+	primary := self primaryColor.
+	^ self isDark
+		  ifTrue: [ primary lighter ]
+		  ifFalse: [ primary darker ]
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> primaryPressedColor [
+
+	| primary |
+	primary := self primaryColor.
+	^ self isDark
+		  ifTrue: [ primary darker ]
+		  ifFalse: [ primary darker darker ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> radius [
+	^ radius ifNil: [ radius := 6 ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> radius: aNumber [
+	radius := aNumber
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> roleColor: aRole [
+	^ self colorNamed: (self roles at: aRole)
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> roles [
+	"Maps each semantic role (#primary #info #success #warning #error) to a palette color name."
+	^ roles ifNil: [ roles := self class defaultRoles copy ]
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> roles: aDictionary [
+	roles := aDictionary
+]
+
+{ #category : 'configuration' }
+ToCatppuccinTheme >> scaled: aNumber [
+	^ (aNumber * self buttonScale / 100) rounded
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> solidTextColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #base ]
+		  ifFalse: [ Color white ]
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> syntaxHighlightStyleTable [
+	^ self class syntaxHighlightStyleTable
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> tooltipBackgroundColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #mantle ]
+		  ifFalse: [ self colorNamed: #text ]
+]
+
+{ #category : 'derived colors' }
+ToCatppuccinTheme >> tooltipForegroundColor [
+
+	^ self isDark
+		  ifTrue: [ self colorNamed: #text ]
+		  ifFalse: [ self colorNamed: #base ]
+]
+
+{ #category : 'tokens' }
 ToCatppuccinTheme >> updateTokens [
 
 	| primary hover pressed link linkHover linkActive error errorHover errorPressed base text subtext0 subtext1 overlay0 overlay1 overlay2 surface0 surface1 tooltipBackground tooltipForeground solidText containerBackground disabledBackground borderColor borderDisabled |
-	primary := self class primaryColor.
-	hover := self class primaryHoverColor.
-	pressed := self class primaryPressedColor.
-	link := self class colorNamed: #blue.
-	linkHover := self class isDark
+	primary := self primaryColor.
+	hover := self primaryHoverColor.
+	pressed := self primaryPressedColor.
+	link := self roleColor: #info.
+	linkHover := self isDark
 		             ifTrue: [ link lighter ]
 		             ifFalse: [ link darker ].
-	linkActive := self class isDark
+	linkActive := self isDark
 		              ifTrue: [ link darker ]
 		              ifFalse: [ link darker darker ].
-	error := self class colorNamed: #red.
-	errorHover := self class isDark
+	error := self roleColor: #error.
+	errorHover := self isDark
 		              ifTrue: [ error lighter ]
 		              ifFalse: [ error darker ].
-	errorPressed := self class isDark
+	errorPressed := self isDark
 		                ifTrue: [ error darker ]
 		                ifFalse: [ error darker darker ].
-	base := self class colorNamed: #base.
-	text := self class colorNamed: #text.
-	subtext0 := self class colorNamed: #subtext0.
-	subtext1 := self class colorNamed: #subtext1.
-	overlay0 := self class colorNamed: #overlay0.
-	overlay1 := self class colorNamed: #overlay1.
-	overlay2 := self class colorNamed: #overlay2.
-	surface0 := self class colorNamed: #surface0.
-	surface1 := self class colorNamed: #surface1.
-	tooltipBackground := self class tooltipBackgroundColor.
-	tooltipForeground := self class tooltipForegroundColor.
-	solidText := self class solidTextColor.
-	containerBackground := self class containerBackgroundColor.
-	disabledBackground := self class containerDisabledBackgroundColor.
-	borderColor := self class borderColor.
-	borderDisabled := self class borderDisabledColor.
+	base := self colorNamed: #base.
+	text := self colorNamed: #text.
+	subtext0 := self colorNamed: #subtext0.
+	subtext1 := self colorNamed: #subtext1.
+	overlay0 := self colorNamed: #overlay0.
+	overlay1 := self colorNamed: #overlay1.
+	overlay2 := self colorNamed: #overlay2.
+	surface0 := self colorNamed: #surface0.
+	surface1 := self colorNamed: #surface1.
+	tooltipBackground := self tooltipBackgroundColor.
+	tooltipForeground := self tooltipForegroundColor.
+	solidText := self solidTextColor.
+	containerBackground := self containerBackgroundColor.
+	disabledBackground := self containerDisabledBackgroundColor.
+	borderColor := self borderColor.
+	borderDisabled := self borderDisabledColor.
 
 	self paletteTokenProperties.
 	{
-		(self ensureTokenNamed: #'sh-style-table' withValue: self class syntaxHighlightStyleTable).
+		(self ensureTokenNamed: #'sh-style-table' withValue: self syntaxHighlightStyleTable).
 		(self ensureTokenNamed: #'background-color' withValue: base).
 		(self ensureTokenNamed: #'color-bg-container' withValue: base).
 		(self ensureTokenNamed: #'color-bg-container-disabled' withValue: disabledBackground).
@@ -313,7 +503,7 @@ ToCatppuccinTheme >> updateTokens [
 		(self ensureTokenNamed: #'color-border-checkable' withValue: Color transparent).
 		(self ensureTokenNamed: #'color-border-disabled' withValue: borderDisabled).
 		(self ensureTokenNamed: #'color-border-indeterminate' withValue: hover).
-		(self ensureTokenNamed: #'color-error-bg' withValue: (error alpha: (self class isDark
+		(self ensureTokenNamed: #'color-error-bg' withValue: (error alpha: (self isDark
 					   ifTrue: [ 0.18 ]
 					   ifFalse: [ 0.10 ]))).
 		(self ensureTokenNamed: #'color-error-hover' withValue: errorHover).
@@ -331,8 +521,8 @@ ToCatppuccinTheme >> updateTokens [
 		(self ensureTokenNamed: #'color-primary-unchecked' withValue: containerBackground).
 		(self ensureTokenNamed: #'color-primary-indeterminate' withValue: (primary alpha: 0.5)).
 		(self ensureTokenNamed: #'color-primary-hover' withValue: hover).
-		(self ensureTokenNamed: #'color-success' withValue: (self colorNamed: #green)).
-		(self ensureTokenNamed: #'color-warning' withValue: (self colorNamed: #yellow)).
+		(self ensureTokenNamed: #'color-success' withValue: (self roleColor: #success)).
+		(self ensureTokenNamed: #'color-warning' withValue: (self roleColor: #warning)).
 		(self ensureTokenNamed: #'selected-focused-foreground' withValue: solidText).
 		(self ensureTokenNamed: #'selected-unfocused-foreground' withValue: primary).
 		(self ensureTokenNamed: #'text-foreground-in-tooltip' withValue: tooltipForeground).
